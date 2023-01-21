@@ -1,0 +1,32 @@
+<body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="jquery-3.6.3.js"></script>
+    <img src="download.png" alt="">
+    <h1>Soquet.io</h1>
+    <div id="msgs"></div>
+    <input type="text" id="campo">
+    <script>
+        const socket = io()
+        socket.on('connect',function(){
+            //$("#msgs").append('Connected with id: ' + socket.id + '<br>')
+            
+            //(1)
+            //socket.emit('msg','I am connected ' + socket.id)
+        })
+        socket.on('msg',function(msg){
+            $("#msgs").append(msg.mensagem+'<br>')
+        })
+        $(function(){
+            $('input').keyup(function(e){
+                //console.log(e.key)
+                if(e.keyCode === 13){
+                    socket.emit('msg',{mensagem:this.value,sala:'room1'})
+                    $("#msgs").append(this.value+'<br>')
+                    this.value = ''
+                    this.focus()     
+                }
+            })
+            $('input').focus()
+        })
+    </script>
+</body>
